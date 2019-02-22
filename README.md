@@ -1,24 +1,23 @@
-# README
+# DelayedJob worker initialization problem
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Look at the latest change in this repository to see the files affected to demonstrate the problem:
+``` bash
+app/jobs/my_job.rb            # a simple job that has a static variable that starts at 0
+app/views/pages/home.html.erb # contains a form for scheduling a new job
+config/initializers/my_initializer.rb # increments the MyJob static variable
+```
 
-Things you may want to cover:
+The initializer sets a static variable in `MyJob` to 1 (it defaults to 0.) When the job is executed, it should print 'x is 1' in the worker console. However, it prints 'x is 0'.
 
-* Ruby version
+``` bash
+$ rails jobs:work
+dj-test$ rails jobs:work
+x is being incremented to 1
 
-* System dependencies
+#
+# visit localhost:3000 and press the 'schedule job' button...
+#
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+[Worker] Starting job worker
+x is 0
+```
