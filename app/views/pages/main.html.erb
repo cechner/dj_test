@@ -1,0 +1,5 @@
+<%= Delayed::Job.count %> jobs queued
+
+<%= form_with url: pages_schedule_path do |f| %>
+  <%= f.submit 'schedule job' %>
+<% end %>
